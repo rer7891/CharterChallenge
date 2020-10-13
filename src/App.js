@@ -42,12 +42,28 @@ function App() {
     const sortedRestaurantByFilter = () => {
           var byFilter = restaurants.slice(0);
           const key = getKeyByValue(byFilter, filter)
-          const byState = byFilter.filter(
-            restaurant => 
-              restaurant[key] === filter
-        );
-        return byState;
+          if (key === 'state'){
+            setFilter(filter.toUpperCase())
+            const byState = byFilter.filter(
+              restaurant => 
+                restaurant[key] === filter
+          );
+          return byState;
+          }
+
+          if (key === 'genre'){
+            var genreArr = filter.split(',');
+            let byGenre = [];
+            genreArr.forEach((genre) => {
+              console.log('genere', genre)
+              byGenre = byFilter.filter(
+                restaurant => 
+                  restaurant[key].includes(genre) === true
+            );
+            })  
+            return byGenre;
         }
+      }
         
       function getKeyByValue(object, value) { 
         let finalKey = 'genre';
@@ -59,14 +75,13 @@ function App() {
               finalKey = key;
             }
           })
-      
         })
         return finalKey;
       }
 
     const handleChange = (event) => {
       event.persist();
-      setFilter(event.target.value.trim().toUpperCase())
+      setFilter(event.target.value.trim())
     };
   
   const handleSubmit = async () => {
