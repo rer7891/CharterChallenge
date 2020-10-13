@@ -6,6 +6,7 @@ import axios from 'axios';
 function App() {
 
     const [restaurants, setRestaurants] = useState(null);
+    const [restaurantsReset, setRestaurantsReset] = useState(null);
     const [filter, setFilter] = useState(null);
 
     const apiURL = 'https://code-challenge.spectrumtoolbox.com/api/restaurants'
@@ -32,6 +33,7 @@ function App() {
           })
           .then((response) => {
              setRestaurants(response) 
+             setRestaurantsReset(response) 
           })
     }
 
@@ -39,10 +41,23 @@ function App() {
         fetchData();
     }, [])
 
+    const sortByGenre = (byFilter, key) => {
+      var genreArr = filter.split(',');
+      let byGenre = []
+            genreArr.forEach((genre) => {
+              console.log('genere', genre)
+              byGenre = byFilter.filter(
+                restaurant => 
+                  restaurant[key].includes(genre) === true
+              );
+            }) 
+      return byGenre; 
+    }
+
     const sortedRestaurantByFilter = () => {
           var byFilter = restaurants.slice(0);
           const key = getKeyByValue(byFilter, filter)
-          if (key === 'state'){
+          if (key != 'genre'){
             setFilter(filter.toUpperCase())
             const byState = byFilter.filter(
               restaurant => 
@@ -52,18 +67,9 @@ function App() {
           }
 
           if (key === 'genre'){
-            var genreArr = filter.split(',');
-            let byGenre = [];
-            genreArr.forEach((genre) => {
-              console.log('genere', genre)
-              byGenre = byFilter.filter(
-                restaurant => 
-                  restaurant[key].includes(genre) === true
-            );
-            })  
-            return byGenre;
+            return sortByGenre(byFilter, key);
+          } 
         }
-      }
         
       function getKeyByValue(object, value) { 
         let finalKey = 'genre';
@@ -81,6 +87,9 @@ function App() {
 
     const handleChange = (event) => {
       event.persist();
+      if (event.target.value === '') {
+        setRestaurants(restaurantsReset);
+      }
       setFilter(event.target.value.trim())
     };
   
@@ -103,6 +112,13 @@ function App() {
         <div>
         <label>
             <span style={{ display: "inline-block", width: "50px", textAlign: "right", paddingRight: "0.5em", fontSize: '18px' }}>Filter by Genre:</span>
+            <input type="text" style={{ width: "27em", maxWidth: "70%", fontSize: '18px' }} onChange={ handleChange }/>
+        </label>
+        <button className="k-button" onClick={() => handleSubmit()}>Submit</button>
+        </div>
+        <div>
+        <label>
+            <span style={{ display: "inline-block", width: "50px", textAlign: "right", paddingRight: "0.5em", fontSize: '18px' }}>Search:</span>
             <input type="text" style={{ width: "27em", maxWidth: "70%", fontSize: '18px' }} onChange={ handleChange }/>
         </label>
         <button className="k-button" onClick={() => handleSubmit()}>Submit</button>
