@@ -14,12 +14,25 @@ function App() {
         }, 
     };
 
+    const sortedRestaurantsByName = (data) => {
+      var byName = data.slice(0);
+      byName.sort(function(a,b) {
+        var nameOne = a.name.toLowerCase();
+        var nameTwo = b.name.toLowerCase();
+        return nameOne < nameTwo ? -1 : nameOne > nameTwo ? 1 : 0;
+      });
+      return byName;
+    }
+
     const fetchData = async () => {
-      const response = await axios.get(apiURL, apiHeader)
-      .then((response) => {
-        return  setRestaurants(response.data) 
-      })
-  }
+          await axios.get(apiURL, apiHeader)
+          .then((response) => {
+            return sortedRestaurantsByName(response.data);
+          })
+          .then((response) => {
+             setRestaurants(response) 
+          })
+    }
 
 useEffect (() => {
     fetchData();
