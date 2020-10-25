@@ -2,6 +2,27 @@
   text-align: center;
 }
 
+.Div {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.Header {
+  color: #47ccde;
+  font-weight: bold;
+  font-size: 35px;
+  text-align: center 
+}
+
+.line{
+  width: 95%;
+  height: 15px;
+  border-bottom: 5px solid #47ccde;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -65,3 +86,51 @@
     border-radius: unset
   }
 
+  input[type=text], select {
+    width: 25%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    margin-left: 15px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  #restaurants {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border: 5px solid #47ccde;
+    border-radius: 25px;
+    /* border-collapse: collapse; */
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #restaurants tr, th {
+    border: 1px solid #ddd;
+    padding-left: 50px;
+  }
+  
+  #restaurants td, #restaurants {
+    padding: 8px;
+  }
+
+  #restaurants tr:hover {background-color: #47ccde;}
+  
+  #restaurants th {
+    width: 20%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+  
+    color: black;
+  }
+
+  .restaurant-header {
+    background-color: #47ccde;
+  }
+
+  .restaurant-rows {
+    background-color: gainsboro;
+  }
