@@ -1,18 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import ReactPaginate from 'react-paginate';
 import restaurantApi from '../../api/restaurants.api';
 import RestaurantCard from '../../components/Restaurants'
 import FilterRestaurants from '../../components/FilterRestaurants'
+import ReactPagination from "react-js-pagination";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 function Restaurants() {
-    const [restaurants, setRestaurants] = useState(null);
+    const [restaurants, setRestaurants] = useState([]);
     const [restaurantsReset, setRestaurantsReset] = useState(null);
-    const [filter, setFilter] = useState(null);
-    const [offset, setOffset] = useState(0);
-    // const [data, setData] = useState([]);
-    const [perPage, setPerPage] = useState(5);
-    const [currentPage, setCurrentPage] = useState(0);
-
+    const [activePage, setActivePage] = useState(1);
+    const [pageCount, setPageCount] = useState(38);
 
     const sortedRestaurantsByName = (data) => {
       var byName = data.slice(0);
@@ -32,96 +29,48 @@ function Restaurants() {
         setRestaurantsReset(response)
       }
 
+    const pageCounter =  () => {
+      const count = Math.ceil(restaurants.length / 5)
+      setPageCount(count)
+    }
+
     useEffect (() => {
         restaurantApi(sortedRestaurantsByName, callback, callbackReset);
     }, [])
 
-//     const sortByGenre = (byFilter, key) => {
-//       var genreArr = filter.split(',');
-//       let byGenre = []
-//             genreArr.forEach((genre) => {
-//               console.log('genere', genre)
-//               byGenre = byFilter.filter(
-//                 restaurant => 
-//                   restaurant[key].includes(genre) === true
-//               );
-//             }) 
-//       return byGenre; 
-//     }
+    useEffect(() => {
+      if (restaurants.length >= 1) {
+        pageCounter();
+      }
+    })
 
-//     const sortedRestaurantByFilter = () => {
-//           var byFilter = restaurants.slice(0);
-//           const key = getKeyByValue(byFilter, filter)
-//           if (key !== 'genre'){
-//             setFilter(filter.toUpperCase())
-//             const byState = byFilter.filter(
-//               restaurant => 
-//                 restaurant[key] === filter
-//           );
-//           return byState;
-//           }
-
-//           if (key === 'genre'){
-//             return sortByGenre(byFilter, key);
-//           } 
-//         }
-        
-//       function getKeyByValue(object, value) { 
-//         let finalKey = 'genre';
-//         object.forEach((element) => {
-//           const keys = Object.keys(element)
-      
-//           keys.forEach((key) => {
-//             if (element[key] === value) {
-//               finalKey = key;
-//             }
-//           })
-//         })
-//         return finalKey;
-//       }
-
-//     const handleChange = (event) => {
-//       event.persist();
-//       if (event.target.value === '') {
-//         setRestaurants(restaurantsReset);
-//       }
-//       setFilter(event.target.value.trim())
-//     };
-  
-//   const handleSubmit = async () => {
-//     const newRestaurantList = await sortedRestaurantByFilter();
-//     setRestaurants(newRestaurantList);
-//     console.log('handleSubmit',restaurants);
-//   }
-
-  const handlePageClick = (e) => {
-    const selectedPage = e.selected;
-    const offset = selectedPage * perPage;
-
-    setCurrentPage(selectedPage);
-    setOffset(offset)
-  }
-
+    const handlePageChange = (pageNumber) => {
+      setActivePage(pageNumber);
+    }
 
 return (
     <div>
-    <p>Restaraunt List</p>
-    <FilterRestaurants restaurants = {restaurants} parentCallBack = {callback} restaurantsReset = {restaurantsReset}/>
-  {restaurants && restaurants.length && 
-    <RestaurantCard restaurants = {restaurants}/>
-  }
-    <ReactPaginate
-              previousLabel={"prev"}
-              nextLabel={"next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={1}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}/>
+    <p class="Header"> Restaraunt List</p>
+    <div class="line"></div>
+    <div class="Div"> 
+    <FilterRestaurants restaurants = {restaurants} 
+                       parentCallBack = {callback} 
+                       restaurantsReset = {restaurantsReset}/>
+     </div>
+    {restaurants && restaurants.length && 
+      <RestaurantCard restaurants = {restaurants} activePage = {activePage}/>
+    }
+    {console.log("Page Count", pageCount)}
+    <ReactPagination
+      itemClass="page-item"
+      linkClass="page-link"
+      itemsCountPerPage={5}
+      totalItemsCount={restaurants.length}
+      pageRangeDisplayed={pageCount}
+      activePage={activePage}
+      onChange={handlePageChange}
+    />
+   
   </div>
 
 );
