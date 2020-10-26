@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import restaurantApi from '../../api/restaurants.api';
-import RestaurantCard from '../../components/Restaurants'
+import RestaurantCard from '../../components/RestaurantCard/index'
 import FilterRestaurants from '../../components/FilterRestaurants'
 import ReactPagination from "react-js-pagination";
-// import "bootstrap/dist/css/bootstrap.min.css";
 
 function Restaurants() {
     const [restaurants, setRestaurants] = useState([]);
@@ -49,18 +48,20 @@ function Restaurants() {
     }
 
 return (
-    <div>
-    <p class="Header"> Restaraunt List</p>
-    <div class="line"></div>
-    <div class="Div"> 
+    <div className="container">
+    <div className="circle">
+    <p className="Header"> Restaraunt List</p></div>
+    <div className="Div"> 
     <FilterRestaurants restaurants = {restaurants} 
                        parentCallBack = {callback} 
                        restaurantsReset = {restaurantsReset}/>
      </div>
-    {restaurants && restaurants.length && 
+    {restaurants && restaurants.length > 0 ?
       <RestaurantCard restaurants = {restaurants} activePage = {activePage}/>
+      :
+      <p className="error-message">Sorry there are no search results. Please clear the search and try again.</p>
     }
-    {console.log("Page Count", pageCount)}
+
     <ReactPagination
       itemClass="page-item"
       linkClass="page-link"
@@ -70,9 +71,7 @@ return (
       activePage={activePage}
       onChange={handlePageChange}
     />
-   
   </div>
-
-);
+  );
  }
 export default Restaurants;
