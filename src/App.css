@@ -4,6 +4,31 @@
 
 .container{
   background-image: url(./assets/images/Web-Background.png);
+  /* display: flex */
+}
+
+.filter-container {
+  display: flex; 
+  justify-content: space-evenly;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.filter {
+  color: rgb(113, 121, 128);
+  font-weight: bold;
+  padding-left: 30px;
+}
+
+.filter-button {
+  color:rgb(255, 255, 255);
+  font-size: 18px;
+  margin-left: 30px;
+  border-radius: 12px;
+  border: none;
+  padding: 10px 20px;
+  display: inline-block;
+  background-color:  rgb(113, 121, 128);
 }
 
 .circle {
@@ -12,7 +37,7 @@
   justify-content: center;
   width: 30%;
   height: 50%;
-  background-color: #555;
+  background-color:  rgb(113, 121, 128);
   padding-right: 10px;
   padding-left: 10px;
   padding-bottom: 30px;
@@ -38,7 +63,7 @@
 }
 
 .Header {
-  color: rgb(189, 202, 213);
+  color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 35px;
   text-align: center 
@@ -109,15 +134,20 @@
   }
 
   input[type=text], select {
-    width: 25%;
+    /* width: 24%; */
     padding: 12px 20px;
     margin: 8px 0;
     margin-left: 15px;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 2px solid rgb(141, 153, 163);
     border-radius: 4px;
     box-sizing: border-box;
   }
+
+  input:focus {
+    color:  rgb(141, 153, 163);
+    outline: 2px  rgb(141, 153, 163);  
+   }
 
   #restaurants {
     /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
@@ -129,31 +159,29 @@
     border: none !important;
   }
 
-  #restaurants tr:hover {background-color: rgb(141, 153, 163);}
+  /* #restaurants tr:hover {background-color: rgb(141, 153, 163);} */
   
   #restaurants th {
     padding-top: 12px;
     padding-bottom: 12px;
     padding-left: 25px;
-    text-align: left;
+    text-align: center;
     border: none !important;
-    color: black;
+    color: rgb(255, 255, 255);
   }
 
   #restaurants td {
-    /* width: 20%; */
     padding-top: 12px;
     padding-bottom: 12px;
     padding-left: 25px;
-    text-align: left;
+    text-align: center;
     border: none !important;
 
-    color: black;
+    color:  rgb(141, 153, 163);
   }
 
   .restaurant-header {
-    background-color: rgb(141, 153, 163);;
-    color: rgb(255, 255, 255);
+    background-color: rgb(113, 121, 128);
   }
 
   .restaurant-rows {
@@ -171,3 +199,19 @@
     font-size: 35px;
     text-align: center 
   }
+
+a:link {
+  color: rgb(141, 153, 163);
+}
+
+a:visited {
+  color: rgb(141, 153, 163);
+}
+
+a:hover {
+  color:  rgb(141, 153, 163);
+}
+
+a:active {
+  color:  rgb(141, 153, 163);
+}
