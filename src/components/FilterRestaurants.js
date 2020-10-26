@@ -20,6 +20,9 @@ const FilterRestaurants = (props) => {
                     restaurant[key].includes(genre) === true
                 );
               }) 
+        if (byGenre.length === 38) {
+          return []
+        }
         return byGenre; 
       }
       const updateRestaurants = async (value) => {
@@ -32,6 +35,7 @@ const FilterRestaurants = (props) => {
 
       useEffect(() => {
         if (didMount && stateValue === '') {
+          document.getElementById("form").reset();
           parentCallBack(restaurantsReset)
         }
         else{
@@ -44,6 +48,7 @@ const FilterRestaurants = (props) => {
 
       useEffect(() => {
         if (didMount && genreValue === '') {
+          document.getElementById("form").reset();
           parentCallBack(restaurantsReset)
         }
         else {
@@ -53,14 +58,6 @@ const FilterRestaurants = (props) => {
           });
         }
       }, [genreValue])
-
-      // useEffect(() => {
-      //   let mounted = true
-      //   if (mounted) {
-      //     parentCallBack(restaurantsReset)
-      //   }
-      //   return () => mounted = false;
-      // }, [resetFilter])
 
   
       const sortedRestaurantByFilter = (filter) => {
@@ -99,27 +96,25 @@ const FilterRestaurants = (props) => {
     }
     
     return (<>
-            <div class="Div">
+          <form id="form">
+            <div className="Div">
             <label>
             <span style={{ display: "inline-block", width: "50px", paddingLeft: "50px", fontSize: '18px' }}>Filter by State: </span>
             <input type="text" onChange={(e) => {
                setStateFilter(e.target.value);}}/>
             </label>
-        </div>
-        <div class="Div">
         <label>
             <span style={{ display: "inline-block", width: "50px", textAlign: "right", paddingLeft: "50px", fontSize: '18px' }}>Filter by Genre: </span>
             <input type="text" onChange={(e) => {
                setGenreFilter(e.target.value);}}/>
         </label>
-        </div>
-        <div class="Div">
         <label>
             <span style={{ display: "inline-block", width: "50px", textAlign: "right", paddingLeft: "50px", fontSize: '18px' }}> Search:  </span>
             <input type="text" />
         </label>
         <button className="k-button" onClick={() => handleSubmit()}>Submit</button>
-        </div>  </>
+        </div> 
+        </form> </>
       )
    }
     
