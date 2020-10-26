@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import restaurantApi from '../../api/restaurants.api';
 import RestaurantCard from '../../components/RestaurantCard/index'
 import FilterRestaurants from '../../components/FilterRestaurants'
-import ReactPagination from "react-js-pagination";
+import Pagination from "react-js-pagination";
 
 function Restaurants() {
     const [restaurants, setRestaurants] = useState([]);
@@ -19,7 +19,7 @@ function Restaurants() {
       });
       return byName;
     }
-
+  
     const callback = (response) => {
         setRestaurants(response)
       }
@@ -48,10 +48,11 @@ function Restaurants() {
     }
 
 return (
+
     <div className="container">
     <div className="circle">
-    <p className="Header"> Restaraunt List</p></div>
-    <div className="Div"> 
+    <p className="Header"> Restaraunt Listing</p></div>
+    <div className="filter-container"> 
     <FilterRestaurants restaurants = {restaurants} 
                        parentCallBack = {callback} 
                        restaurantsReset = {restaurantsReset}/>
@@ -62,7 +63,7 @@ return (
       <p className="error-message">Sorry there are no search results. Please clear the search and try again.</p>
     }
 
-    <ReactPagination
+    <Pagination
       itemClass="page-item"
       linkClass="page-link"
       itemsCountPerPage={5}
