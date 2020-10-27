@@ -28,6 +28,7 @@
   border: none;
   padding: 10px 20px;
   display: inline-block;
+  outline: none;
   background-color:  rgb(113, 121, 128);
 }
 

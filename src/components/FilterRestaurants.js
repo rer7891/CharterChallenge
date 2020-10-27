@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import { useDebounce } from 'use-debounce';
-import { throttle } from 'lodash';
 
 const FilterRestaurants = (props) => {
     const [stateFilter, setStateFilter] = useState("");
     const [genreFilter, setGenreFilter] = useState("");
-    const [searchFilter, setSearchFilter] = useState("");
+    // const [searchFilter, setSearchFilter] = useState("");
     const [didMount, setDidMount] = useState(false);
     const [stateValue] = useDebounce(stateFilter, 1000);
     const [genreValue] = useDebounce(genreFilter, 1000);
-    const [searchValue] = useDebounce(searchFilter, 1000);
+
 
 
     const{ restaurants, parentCallBack, restaurantsReset} = props; 
@@ -19,18 +18,22 @@ const FilterRestaurants = (props) => {
     }
 
     const sortByGenre = (byFilter, key) => {
-        var genreArr = genreFilter.split(',');
+      console.log('key', key)
+
+      const genreArr = genreFilter.split(',')
+        console.log('genreArr', genreArr)
         let byGenre = []
               genreArr.forEach((genre) => {
-                const newGenre = capitalize(genre)
+                // const newGenre = capitalize(genre)
                 byGenre = byFilter.filter(
                   restaurant => 
-                    restaurant[key].includes(newGenre) === true
+                    restaurant[key].toLowerCase().includes(genre.toLowerCase()) === true
                 );
               }) 
         if (byGenre.length === 38) {
           return []
         }
+        console.log('byGenre', byGenre)
         return byGenre; 
       }
       const updateRestaurants = async (value) => {
@@ -47,6 +50,7 @@ const FilterRestaurants = (props) => {
           parentCallBack(restaurantsReset)
         }
         else{
+          console.log('use effect state')
           updateRestaurants(stateValue)
           .then((result) => {
             parentCallBack(result);
@@ -60,6 +64,7 @@ const FilterRestaurants = (props) => {
           parentCallBack(restaurantsReset)
         }
         else {
+          console.log('use effect genre')
           updateRestaurants(genreValue)
           .then((result) => {
             parentCallBack(result);
@@ -67,23 +72,14 @@ const FilterRestaurants = (props) => {
         }
       }, [genreValue])
 
-      // useEffect(() => {
-      //   if (didMount && searchValue === '') {
-      //     document.getElementById("form").reset();
-      //     parentCallBack(restaurantsReset)
-      //   }
-      // }, [searchValue])
-
-  
       const sortedRestaurantByFilter = (filter) => {
             var byFilter = restaurants.slice(0);
             const key = getKeyByValue(byFilter, filter)
-            if (key !== 'genre'){
-              const upperCase = filter.toUpperCase()
-              setStateFilter(filter.toUpperCase())
+            if (key === 'state'){
+              setStateFilter(filter)
               const byState = byFilter.filter(
                 restaurant => 
-                  restaurant[key] === upperCase
+                  restaurant[key].toLowerCase() === stateFilter.toLowerCase()
             );
             return byState;
             }
@@ -94,24 +90,26 @@ const FilterRestaurants = (props) => {
           }
 
         function getKeyByValue(object, value) { 
+          console.log('value', value)
           let finalKey = 'genre';
-          if (value.length === 2) {
-            value = value.toUpperCase()
-          }
+          // if (value.length === 2) {
+          //   value = value.toUpperCase()
+          // }
           object.forEach((element) => {
             const keys = Object.keys(element)
             keys.forEach((key) => {
-              if (element[key] === value) {
+              if (element[key].toLowerCase() === value.toLowerCase()) {
                 finalKey = key;
+                console.log('finalKey 1', finalKey)
               }
             })
           })
+          console.log('finalKey 2', finalKey)
           return finalKey;
         }
     
-    const handleSubmit = async () => {
-      console.log('serach', searchValue)
-      const newRestaurantList = await sortedRestaurantByFilter(searchValue);
+    const handleSubmit = () => {
+      const newRestaurantList = sortedRestaurantByFilter(genreValue);
       parentCallBack(newRestaurantList);
     }
     
@@ -128,9 +126,9 @@ const FilterRestaurants = (props) => {
                setGenreFilter(e.target.value);}}/>
         </label>
         <label>
-            <button className="filter-button" onClick={() => handleSubmit()}> Search: </button>
+            <button type="button" className="filter-button" onClick={() => handleSubmit()}> Search: </button>
             <input type="text" onChange={(e) => {
-               setSearchFilter(e.target.value);}} />
+               setGenreFilter(e.target.value);}} />
         </label>
         </form> </>
       )
