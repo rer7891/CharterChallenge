@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import restaurantApi from '../../api/restaurants.api';
 import RestaurantCard from '../../components/RestaurantCard/index'
-import FilterRestaurants from '../../components/FilterRestaurants'
+import FilterRestaurants from '../../components/FilterComponent/index'
 import { LoadingOutlined } from '@ant-design/icons';
 import Pagination from "react-js-pagination";
 
