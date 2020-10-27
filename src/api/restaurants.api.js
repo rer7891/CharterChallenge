@@ -2,9 +2,10 @@ import axios from 'axios';
 
 const restaurantApi = async (sortedRestaurantsByName, parentCallBack, parentCallBackReset) => {
     const apiURL = 'https://code-challenge.spectrumtoolbox.com/api/restaurants'
+    const API_KEY = process.env.REACT_APP_RESTAURANT_API_KEY;
     const apiHeader = { 
         headers: { 
-        Authorization: 'Api-Key q3MNxtfep8Gt', 
+        Authorization: API_KEY, 
         }, 
     };
     await axios.get(apiURL, apiHeader)
