@@ -2,6 +2,74 @@
   text-align: center;
 }
 
+.container{
+  background-image: url(./assets/images/Web-Background.png);
+  /* display: flex */
+}
+
+.filter-container {
+  display: flex; 
+  justify-content: space-evenly;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.filter {
+  color: rgb(113, 121, 128);
+  font-weight: bold;
+  padding-left: 30px;
+}
+
+.filter-button {
+  color:rgb(255, 255, 255);
+  font-size: 18px;
+  margin-left: 30px;
+  border-radius: 12px;
+  border: none;
+  padding: 10px 20px;
+  display: inline-block;
+  outline: none;
+  background-color:  rgb(113, 121, 128);
+}
+
+.circle {
+  /* display: inline-flex; */
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 50%;
+  background-color:  rgb(113, 121, 128);
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  min-width: 1em;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-top: 10px;
+  margin-right: auto;
+}
+
+.circle:before {
+  content:'';
+  float: center;
+  width: auto;
+}
+
+
+.Div {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.Header {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 35px;
+  text-align: center 
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -25,7 +93,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color:  rgb(141, 153, 163);
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +103,116 @@
   to {
     transform: rotate(360deg);
   }
+}
+  .pagination {
+    margin: 15px auto;
+    display: flex;
+    list-style: none;
+    outline: none;
+    margin-bottom: 50px;
+  }
+  .pagination > .active > a{
+    background-color:  rgb(141, 153, 163);
+    border-color:  rgb(141, 153, 163);
+    color: #fff;
+  }
+  .pagination > li > a{
+    border: 1px solid  rgb(141, 153, 163);
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color:  rgb(141, 153, 163);
+    border-color:  rgb(141, 153, 163);
+    outline: none ;
+  }
+  .pagination > li > a, .pagination > li > span{
+    color:  rgb(141, 153, 163);
+  }
+  .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span{
+    border-radius: unset
+  }
+
+  input[type=text], select {
+    /* width: 24%; */
+    padding: 12px 20px;
+    margin: 8px 0;
+    margin-left: 15px;
+    display: inline-block;
+    border: 2px solid rgb(141, 153, 163);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input:focus {
+    color:  rgb(141, 153, 163);
+    outline: 2px  rgb(141, 153, 163);  
+   }
+
+  #restaurants {
+    /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
+    font-weight: bold;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse !important;
+    border: none !important;
+  }
+
+  /* #restaurants tr:hover {background-color: rgb(141, 153, 163);} */
+  
+  #restaurants th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 25px;
+    text-align: center;
+    border: none !important;
+    color: rgb(255, 255, 255);
+  }
+
+  #restaurants td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 25px;
+    text-align: center;
+    border: none !important;
+
+    color:  rgb(141, 153, 163);
+  }
+
+  .restaurant-header {
+    background-color: rgb(113, 121, 128);
+  }
+
+  .restaurant-rows {
+    border-radius: 0 0 5px 0 !important;
+    height: 120px;
+    color:  rgb(189, 202, 213);
+    border: 1px solid #484949;
+    background-color: rgb(255, 255, 255); 
+    padding-bottom: 25px;  
+  }
+
+  .error-message {
+    color: rgb(141, 153, 163);
+    font-weight: bold;
+    font-size: 35px;
+    text-align: center 
+  }
+
+a:link {
+  color: rgb(141, 153, 163);
+}
+
+a:visited {
+  color: rgb(141, 153, 163);
+}
+
+a:hover {
+  color:  rgb(141, 153, 163);
+}
+
+a:active {
+  color:  rgb(141, 153, 163);
 }
