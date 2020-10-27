@@ -34,4 +34,8 @@ Testing is done through Cypress test suite. Documentation can be found here: [ht
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+### Continuous Integration
+
+This app also utilizes CI through Travis CI. Travis Documentation can be found here: [https://docs.travis-ci.com/]
+
 
