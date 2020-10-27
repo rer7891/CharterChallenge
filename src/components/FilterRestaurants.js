@@ -8,7 +8,6 @@ const FilterRestaurants = (props) => {
     const [didMount, setDidMount] = useState(false);
     const [stateValue] = useDebounce(stateFilter, 1000);
     const [genreValue] = useDebounce(genreFilter, 1000);    
-    const [searchValue] = useDebounce(searchFilter, 1000);    
 
     const{ restaurants, parentCallBack, restaurantsReset} = props; 
     const byFilter = restaurants.slice(0);
@@ -18,7 +17,7 @@ const FilterRestaurants = (props) => {
       searchArr.forEach((param) => {
         byGenre = byFilter.filter(
           restaurant => 
-            restaurant[key].toLowerCase().includes(param.toLowerCase()) === true
+            restaurant[key].toLowerCase().includes(param.trim().toLowerCase()) === true
         );
       })  
       if (byGenre.length === 38) {
@@ -79,16 +78,16 @@ const FilterRestaurants = (props) => {
       }, [genreValue])
 
       useEffect(() => {
-        if (didMount && searchValue === '') {
+        if (didMount && searchFilter === '') {
           document.getElementById("form").reset();
           parentCallBack(restaurantsReset)
         }
-      }, [searchValue])
+      }, [searchFilter])
 
       const sortedRestaurantByFilter = (filter) => {
             const key = getKeyByValue(filter)
             if (key === 'state'){
-              setStateFilter(filter)
+              setStateFilter(filter.trim())
               const byState = byFilter.filter(
                 restaurant => 
                   restaurant[key].toLowerCase() === stateFilter.toLowerCase()
@@ -109,7 +108,7 @@ const FilterRestaurants = (props) => {
           byFilter.forEach((element) => {
             const keys = Object.keys(element)
             keys.forEach((key) => {
-              if (element[key].toLowerCase() === value.toLowerCase()) {
+              if (element[key].toLowerCase() === value.trim().toLowerCase()) {
                 finalKey = key;
               }
             })
@@ -118,7 +117,7 @@ const FilterRestaurants = (props) => {
         }
     
     const handleSubmit = () => {
-      const newRestaurantList = sortedRestaurantByFilter(searchValue);
+      const newRestaurantList = sortedRestaurantByFilter(searchFilter);
       parentCallBack(newRestaurantList);
     }
     

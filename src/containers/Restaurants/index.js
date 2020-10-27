@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import restaurantApi from '../../api/restaurants.api';
 import RestaurantCard from '../../components/RestaurantCard/index'
 import FilterRestaurants from '../../components/FilterRestaurants'
+import { LoadingOutlined } from '@ant-design/icons';
 import Pagination from "react-js-pagination";
 
 function Restaurants() {
+    const [ loading, setLoading ] = useState(true);
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantsReset, setRestaurantsReset] = useState(null);
     const [activePage, setActivePage] = useState(1);
@@ -28,13 +30,13 @@ function Restaurants() {
         setRestaurantsReset(response)
       }
 
-    const pageCounter =  () => {
-      const count = Math.ceil(restaurants.length / 5)
-      setPageCount(count)
-    }
+      const loadingCallBack = (response => {
+        setLoading(response)
+      })
+
 
     useEffect (() => {
-        restaurantApi(sortedRestaurantsByName, callback, callbackReset);
+        restaurantApi(sortedRestaurantsByName, callback, callbackReset, loadingCallBack);
     }, [])
 
     useEffect(() => {
@@ -43,6 +45,11 @@ function Restaurants() {
       }
     })
 
+    const pageCounter =  () => {
+      const count = Math.ceil(restaurants.length / 5)
+      setPageCount(count)
+    }
+
     const handlePageChange = (pageNumber) => {
       setActivePage(pageNumber);
     }
@@ -50,6 +57,7 @@ function Restaurants() {
 return (
 
     <div className="container">
+
     <div className="circle">
     <p className="Header"> Restaraunt Listing</p></div>
     <div className="filter-container"> 
@@ -57,11 +65,21 @@ return (
                        parentCallBack = {callback} 
                        restaurantsReset = {restaurantsReset}/>
      </div>
-    {restaurants && restaurants.length > 0 ?
+    {restaurants && restaurants.length > 0 && !loading ? 
       <RestaurantCard restaurants = {restaurants} activePage = {activePage}/>
       :
-      <p className="error-message">Sorry there are no search results. Please clear the search and try again.</p>
+      loading &&
+        <div style={{ width: '100%', textAlign: 'center', paddingTop: 200 }}>
+            <LoadingOutlined
+                spin
+                type="loading"
+                style={{ fontSize: 100, color: '#002E6D' }}
+            />
+        </div>
     }
+   { restaurants && restaurants.length < 1 && !loading &&
+      <p className="error-message">Sorry there are no search results. Please clear the search and try again.</p>
+   }
 
     <Pagination
       itemClass="page-item"
