@@ -4,59 +4,63 @@ import { useDebounce } from 'use-debounce';
 const FilterRestaurants = (props) => {
     const [stateFilter, setStateFilter] = useState("");
     const [genreFilter, setGenreFilter] = useState("");
-    // const [searchFilter, setSearchFilter] = useState("");
+    const [searchFilter, setSearchFilter] = useState("");
     const [didMount, setDidMount] = useState(false);
     const [stateValue] = useDebounce(stateFilter, 1000);
-    const [genreValue] = useDebounce(genreFilter, 1000);
-
-
+    const [genreValue] = useDebounce(genreFilter, 1000);    
+    const [searchValue] = useDebounce(searchFilter, 1000);    
 
     const{ restaurants, parentCallBack, restaurantsReset} = props; 
+    const byFilter = restaurants.slice(0);
 
-    const capitalize = (genre) => {
-      return genre.charAt(0).toUpperCase() + genre.slice(1);
+    const filterSearchbyKey = (searchArr, key) => {
+      let byGenre = []
+      searchArr.forEach((param) => {
+        byGenre = byFilter.filter(
+          restaurant => 
+            restaurant[key].toLowerCase().includes(param.toLowerCase()) === true
+        );
+      })  
+      if (byGenre.length === 38) {
+        return []
+      }
+      return byGenre; 
     }
 
-    const sortByGenre = (byFilter, key) => {
-      console.log('key', key)
+    const sortBySearch = (key) => {
+      const genreArr = searchFilter.split(',')
+      return filterSearchbyKey(genreArr, key)
+    }
 
-      const genreArr = genreFilter.split(',')
-        console.log('genreArr', genreArr)
-        let byGenre = []
-              genreArr.forEach((genre) => {
-                // const newGenre = capitalize(genre)
-                byGenre = byFilter.filter(
-                  restaurant => 
-                    restaurant[key].toLowerCase().includes(genre.toLowerCase()) === true
-                );
-              }) 
-        if (byGenre.length === 38) {
-          return []
-        }
-        console.log('byGenre', byGenre)
-        return byGenre; 
-      }
-      const updateRestaurants = async (value) => {
-        return await sortedRestaurantByFilter(value);
-      }
-      useEffect(() => {
-        setDidMount(true);
-        return () => setDidMount(false);
-     }, [])
+    const sortByGenre = (key) => {
+       const genreArr = genreFilter.split(',')
+      return filterSearchbyKey(genreArr, key)
+    }
 
-      useEffect(() => {
-        if (didMount && stateValue === '') {
-          document.getElementById("form").reset();
-          parentCallBack(restaurantsReset)
-        }
-        else{
-          console.log('use effect state')
-          updateRestaurants(stateValue)
-          .then((result) => {
-            parentCallBack(result);
-          });
-        }
-      }, [stateValue])
+    const updateRestaurants = async (value) => {
+      return await sortedRestaurantByFilter(value);
+    }
+
+    useEffect(() => {
+      setDidMount(true);
+      return () => setDidMount(false);
+    }, [])
+
+    useEffect(() => {
+      if (didMount && stateValue === '') {
+        document.getElementById("form").reset();
+        parentCallBack(restaurantsReset)
+      }
+      else{
+        updateRestaurants(stateValue)
+        .then((result) => {
+          parentCallBack(result);
+        })
+        .catch((e) => {
+           console.log(`${e}`)
+        });
+      }
+    }, [stateValue])
 
       useEffect(() => {
         if (didMount && genreValue === '') {
@@ -64,52 +68,57 @@ const FilterRestaurants = (props) => {
           parentCallBack(restaurantsReset)
         }
         else {
-          console.log('use effect genre')
           updateRestaurants(genreValue)
           .then((result) => {
             parentCallBack(result);
-          });
+          })
+          .catch((e) => {
+            console.log(`${e}`)
+         });
         }
       }, [genreValue])
 
+      useEffect(() => {
+        if (didMount && searchValue === '') {
+          document.getElementById("form").reset();
+          parentCallBack(restaurantsReset)
+        }
+      }, [searchValue])
+
       const sortedRestaurantByFilter = (filter) => {
-            var byFilter = restaurants.slice(0);
-            const key = getKeyByValue(byFilter, filter)
+            const key = getKeyByValue(filter)
             if (key === 'state'){
               setStateFilter(filter)
               const byState = byFilter.filter(
                 restaurant => 
                   restaurant[key].toLowerCase() === stateFilter.toLowerCase()
             );
-            return byState;
+              return byState;
             }
-  
-            else {
-              return sortByGenre(byFilter, key);
+            else if (key === 'genre') {
+              return sortByGenre(key);
             } 
+            else {
+              return sortBySearch(key)
+            }
           }
 
-        function getKeyByValue(object, value) { 
-          console.log('value', value)
+        function getKeyByValue(value) { 
           let finalKey = 'genre';
-          // if (value.length === 2) {
-          //   value = value.toUpperCase()
-          // }
-          object.forEach((element) => {
+    
+          byFilter.forEach((element) => {
             const keys = Object.keys(element)
             keys.forEach((key) => {
               if (element[key].toLowerCase() === value.toLowerCase()) {
                 finalKey = key;
-                console.log('finalKey 1', finalKey)
               }
             })
           })
-          console.log('finalKey 2', finalKey)
           return finalKey;
         }
     
     const handleSubmit = () => {
-      const newRestaurantList = sortedRestaurantByFilter(genreValue);
+      const newRestaurantList = sortedRestaurantByFilter(searchValue);
       parentCallBack(newRestaurantList);
     }
     
@@ -128,7 +137,7 @@ const FilterRestaurants = (props) => {
         <label>
             <button type="button" className="filter-button" onClick={() => handleSubmit()}> Search: </button>
             <input type="text" onChange={(e) => {
-               setGenreFilter(e.target.value);}} />
+               setSearchFilter(e.target.value);}} />
         </label>
         </form> </>
       )
