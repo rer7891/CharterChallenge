@@ -9,11 +9,12 @@
 Link: https://charterchallenge.herokuapp.com/
 
 ## Local Setup:
+* Run npm install
 
-This app has a .env file with the following environmental variable:
+* This app has a .env file with the following environmental variable: <br />
 - REACT_APP_RESTAURANT_API_KEY 
 
-Please contact the site's owner for the api key. This key is used to access
+* Please contact the site's owner for the api key. This key is used to access
 an restaurant api endpoint and is necessary to run the app locally. 
 
 ### npm start
