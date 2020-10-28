@@ -12,34 +12,6 @@ const FilterRestaurants = (props) => {
     const{ restaurants, parentCallBack, restaurantsReset} = props; 
     const byFilter = restaurants.slice(0);
 
-    const filterSearchbyKey = (searchArr, key) => {
-      let byGenre = []
-      searchArr.forEach((param) => {
-        byGenre = byFilter.filter(
-          restaurant => 
-            restaurant[key].toLowerCase().includes(param.trim().toLowerCase()) === true
-        );
-      })  
-      if (byGenre.length === 38) {
-        return []
-      }
-      return byGenre; 
-    }
-
-    const sortBySearch = (key) => {
-      const genreArr = searchFilter.split(',')
-      return filterSearchbyKey(genreArr, key)
-    }
-
-    const sortByGenre = (key) => {
-       const genreArr = genreFilter.split(',')
-      return filterSearchbyKey(genreArr, key)
-    }
-
-    const updateRestaurants = async (value) => {
-      return await sortedRestaurantByFilter(value);
-    }
-
     useEffect(() => {
       setDidMount(true);
       return () => setDidMount(false);
@@ -83,6 +55,34 @@ const FilterRestaurants = (props) => {
           parentCallBack(restaurantsReset)
         }
       }, [searchFilter])
+
+      const sortBySearch = (key) => {
+        const genreArr = searchFilter.split(',')
+        return filterSearchbyKey(genreArr, key)
+      }
+  
+      const sortByGenre = (key) => {
+         const genreArr = genreFilter.split(',')
+        return filterSearchbyKey(genreArr, key)
+      }
+  
+      const updateRestaurants = async (value) => {
+        return await sortedRestaurantByFilter(value);
+      }
+
+      const filterSearchbyKey = (searchArr, key) => {
+        let byGenre = []
+        searchArr.forEach((param) => {
+          byGenre = byFilter.filter(
+            restaurant => 
+              restaurant[key].toLowerCase().includes(param.trim().toLowerCase()) === true
+          );
+        })  
+        if (byGenre.length === 38) {
+          return []
+        }
+        return byGenre; 
+      }
 
       const sortedRestaurantByFilter = (filter) => {
             const key = getKeyByValue(filter)

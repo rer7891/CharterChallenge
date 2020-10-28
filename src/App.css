@@ -4,7 +4,6 @@
 
 .container{
   background-image: url(./assets/images/Web-Background.png);
-  /* display: flex */
 }
 
 .filter-container {
@@ -151,7 +150,6 @@
    }
 
   #restaurants {
-    /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
     font-weight: bold;
     width: 95%;
     margin-left: auto;
@@ -159,8 +157,6 @@
     border-collapse: collapse !important;
     border: none !important;
   }
-
-  /* #restaurants tr:hover {background-color: rgb(141, 153, 163);} */
   
   #restaurants th {
     padding-top: 12px;
